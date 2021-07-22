@@ -1,1 +1,6 @@
-print(2/2)
+def solution(n):
+    for i in n:
+        print(i)
+
+
+print(solution("()()"))
