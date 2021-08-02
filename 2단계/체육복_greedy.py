@@ -1,27 +1,14 @@
 def solution(n, lost, reserve):
-    no_clear = len(lost)
-    clear = 0
-    lost1 = set(lost)
-    reserve1 = set(reserve)
+    reser_del = set(reserve)-set(lost)
+    lost_del = set(lost)-set(reserve)
 
-    lost1.remove(lost1 & reserve1)
+    for i in reser_del:
+        if i-1 in lost_del:
+            lost_del.remove(i-1)
+        elif i+1 in lost_del:
+            lost_del.remove(i+1)
 
-    # for i in lost:  # 같은 값 제거
-    #     if i in reserve:
-    #         reserve.pop(reserve.index(i))
-    #         lost.pop(lost.index(i))
-    #         clear += 1
-
-    # for j in lost:
-    #     for z in reserve:
-    #         if j + 1 == z or j - 1 == z in reserve:
-    #             reserve.pop(reserve.index(z))
-    #             clear += 1
-    #             break
-
-    # return n - no_clear + clear
-    return lost1
-
+    return n-len(lost_del)
 
 # level 1
 # 전체 학생의 수 n
@@ -30,4 +17,23 @@ def solution(n, lost, reserve):
 # 수업을 들을 수 있는 학생의 최댓값을 return
 # 바로 앞번호의 학생이나 바로 뒷번호의 학생에게만 체육복을 빌려줄 수 있습니다
 
-print(solution(2, [2, 1], [1, 2]))
+
+print(solution(3, [1, 2], [2, 3]))
+
+
+# 다른 풀이
+# set 함수를 쓰지않은 풀이
+"""
+def solution(n, lost, reserve):
+    _reserve = [r for r in reserve if r not in lost]
+    _lost = [l for l in lost if l not in reserve]
+    for r in _reserve:
+        f = r - 1
+        b = r + 1
+        if f in _lost:
+            _lost.remove(f)
+        elif b in _lost:
+            _lost.remove(b)
+    return n - len(_lost)
+
+"""
