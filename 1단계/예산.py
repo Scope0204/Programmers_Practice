@@ -1,21 +1,23 @@
 def solution(d, budget):
-    answer = [0]*len(d)
     d.sort()
-
-    for i in range(len(d)):
-        count = d[i]
-        j = i+1
-        while j < len(d):
-            if count + d[j] <= budget:
-                count += d[j]
-                answer[i] += 1
+    count = d[0]
+    i = 1
+    
+    if count > budget:
+        return 0
+    else:
+        while i < len(d):
+            if count + d[i] <= budget:
+                count += d[i]
+                i += 1
             else:
                 break
 
-    return answer
+        return i
 
 
 print(solution([1, 3, 2, 5, 4], 9))
+print(solution([2, 2, 3, 3], 10))
 
 
 # result는 몇명을 지원할 수 있는지이다.
