@@ -1,9 +1,25 @@
 def solution(progresses, speeds):
 
-    clear_speed, answer = [], []
+    answer = []
 
-    for i in progresses:
-        clear_speed.append((100 - i) / speeds[progresses.index(i)])
+    while progresses:
+        count = 0
+
+        for i in range(len(progresses)):
+            progresses[i] += speeds[i]
+
+        for j in progresses:
+            if j >= 100:
+                count += 1
+            else:
+                break
+
+        if count > 0:
+            for _ in range(count):
+                progresses.pop(0)
+                speeds.pop(0)
+
+            answer.append(count)
 
     return answer
 
@@ -18,7 +34,7 @@ print(solution([93, 30, 55], [1, 30, 5]))
 # 두번째 배포-> 3 -> 1개
 
 
-# print(solution([95, 90, 99, 99, 80, 99]	,[1, 1, 1, 1, 1, 1]))
+print(solution([95, 90, 99, 99, 80, 99], [1, 1, 1, 1, 1, 1]))
 # 5,10,1,1,20,1 -> 완료순서 3,4,6-1-2-5
 # 첫 배포 -> 1
 # 두 번째 배포 -> 2,3,4
@@ -26,4 +42,16 @@ print(solution([93, 30, 55], [1, 30, 5]))
 
 # 100이거나 그 이상일 경우 작업 종료
 # len(progresses) 와 len(speeds) 는 같음
-# 배포할 index보다 전의 index에서 value 값보다 -1이 있을 경우 +1
+
+
+# 다른 풀이 : zip 함수, -100
+"""
+def solution(progresses, speeds):
+    Q=[]
+    for p, s in zip(progresses, speeds):
+        if len(Q)==0 or Q[-1][0]<-((p-100)//s):
+            Q.append([-((p-100)//s),1])
+        else:
+            Q[-1][1]+=1
+    return [q[1] for q in Q]
+"""
