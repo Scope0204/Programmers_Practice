@@ -1,34 +1,19 @@
+# 속도가 많이 느림. pop,sum 개선
 def solution(bridge_length, weight, truck_weights):
 
-    count = 0  # 들어오면 세는거
-    start = []  # 출발한 자동차
-    now_weight = 0
+    bridge = [0]*bridge_length
     answer = 0
-    truck = 0
 
-    while truck_weights:
+    while bridge:
         answer += 1
-
-        if count == bridge_length:
-            a = start.pop(0)
-            now_weight -= a
-            truck_weights.pop(truck_weights.index(a))
-            # 제일 앞선 차량 제외하면서 리스트에도 제거
-
-            if start:
-                count -= 1
+        bridge.pop(0)  # 매 시간 가장 앞을 비워줌
+        if truck_weights:
+            # 다리위의 차 무게값의 합 <= 제한된 무게값
+            if sum(bridge)+truck_weights[0] <= weight:
+                bridge.append(truck_weights.pop(0))  # 트럭 앞순서부터 출발
+            # 이미 무게가 꽉찻을 경우
             else:
-                count = 0
-
-            truck -= 1
-
-        if truck < len(truck_weights) and truck_weights[truck] <= weight-now_weight:
-            start.append(truck_weights[truck])  # 하나씩 뺌
-            now_weight += truck_weights[truck]
-            truck += 1
-
-        if start:  # 출발한 자동차가 있는경우 카운트 시작
-            count += 1
+                bridge.append(0)  # 공기를 채워줌
 
     return answer
 
@@ -37,10 +22,7 @@ print(solution(2, 10, [7, 4, 5, 6]))
 print(solution(100, 100, [10]))
 print(solution(100, 100, [10, 10, 10, 10, 10, 10, 10, 10, 10, 10]))
 
-# 다리 길당 1초, 내릴때 1초 걸리는점 확인
-
-
-# 힌트
+# 참고할만한 힌트
 """
 (Shift의 느낌으로 풀었습니다)
 
