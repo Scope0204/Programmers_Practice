@@ -3,7 +3,6 @@ def solution(genres, plays):
     # plays[i] : 고유번호가 i인 노래가 재생된 횟수입니다.
     answer = []
     genre = {}
-
     answer2 = []
 
     for i in range(len(genres)):
