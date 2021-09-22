@@ -1,10 +1,21 @@
-def solution(number):
-    a = list(map(str, number))
+def solution(s):
+    result = []
+    same = {}
+    count = 0
+    for i in range(0, len(s), 3):
+        if result and result[-1] == s[i:i+3]:
+            if result[-1] not in same:
+                count += 2
+            else:
+                count += 1
 
-    for i in range(len(a)):
-        a[i] = a[i]*2
+            same[result[-1]] = str(count)
 
-    return sorted(a, reverse=True)
+        else:
+            count = 0
+            result.append(s[i:i+3])
+
+    return same
 
 
-print(solution([3, 30, 34, 5, 9]), "9534330")
+print(solution("abrabcabcadqabcabc"))  # abr2abcabq2abc
