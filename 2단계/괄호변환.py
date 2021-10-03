@@ -23,6 +23,7 @@ def uvsolution(w):
 
     if w == '':  # 1. 빈 문자열의 경우 빈 문자열을 반환
         return ''
+
     else:  # 2. 문자열 w 를 u와 v로 분리
         left, right = 0, 0  # ( , )
         u, v = '', ''
@@ -47,10 +48,11 @@ def solution(p):
     # 처음은 무조건 (가 와야함('올바른 괄호 문자열')
     if u[0] == "(":  # 3. u가 '올바른 괄호 문자열' 의 경우
         answer += u
+
         u, v = uvsolution(v)  # v가 1,2단계를 수행함
         answer += solution2(u, v)
 
-    else:
+    else:  # 아닌 경우
         answer = solution2(u, v)
 
     return answer
@@ -78,16 +80,104 @@ def solution2(u, v):
         answer += ")"  # 4-3. ')'를 다시 붙입니다.
 
         # 4-4. u의 첫 번째와 마지막 문자를 제거하고, 나머지 문자열의 괄호 방향을 뒤집어서 뒤에 붙입니다.
+
+        answer += reverse(u[1:-1])
+        """
         for val2 in u[1:-1]:
             if val2 == ")":
                 answer += "("
             else:
                 answer += ")"
+        """
         # 4-5. 생성된 문자열을 반환합니다.
 
     return answer
 
 
-print(solution("(()())()"))
-print(solution(")("))
+def reverse(strings):
+    answer = ''
+    r = {"(": ")", ")": "("}
+    for s in strings:
+        answer += r[s]
+    return answer
+
+
+# print(solution("(()())()"))
+# print(solution(")("))
 print(solution("()))((()"))
+
+# 풀이 참고
+"""
+def split(s):
+    queue = []
+    positive = 0
+    negative = 0
+    while s:
+        c = s.pop(0)
+        queue.append(c)
+        if c == "(":
+            positive += 1
+        else:
+            negative += 1
+        if positive == negative:
+            break
+    return queue, s
+
+
+def is_correct(s):
+    if len(s) == 0:
+        return True
+
+    stack = []
+    while s:
+        c = s.pop(0)
+        if c == "(":
+            stack.append(c)
+        else:
+            if not stack:
+                return False
+            else:
+                stack.pop()
+    return not stack
+
+
+def reverse(strings):
+    r = {"(":")", ")": "("}
+    return [r[s] for s in strings]
+
+
+def solution(p):
+    p = list(p)
+
+    def recursive(s):
+        if not s:
+            return []
+        u, v = split(s)
+        if is_correct(list(u)):
+            return u + recursive(v)
+        else:
+            u = u[1:-1]
+            return ["("] + recursive(v) + [")"] + reverse(u)
+
+    answer = recursive(p)
+    return "".join(answer)
+"""
+
+# 다른 풀이 :
+"""
+def solution(p):
+    if p=='': return p
+    r=True; c=0
+    for i in range(len(p)):
+        if p[i]=='(': c-=1
+        else: c+=1
+        if c>0: r=False
+        if c==0:
+            if r:
+                return p[:i+1]+solution(p[i+1:])
+            else:
+                return '('+solution(p[i+1:])+')'+''.join(list(map(lambda x:'(' if x==')' else ')',p[1:i]) ))
+"""
+# (참고)
+# map 또한 iterable이니 list()로 변환하는 과정은 필요 없음
+# ''.join(list(map(lambda x:'(' if x==')' else ')',p[1:i]) )) 대신 ''.join(['(' if x==')' else ')' for x in p[1:i]]) 도 가능
