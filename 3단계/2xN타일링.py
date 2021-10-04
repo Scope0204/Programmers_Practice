@@ -1,3 +1,5 @@
+# 중복순열 풀이 -> 런타임에러
+"""
 def solution(n):
     answer = 0
     num = n
@@ -25,3 +27,17 @@ print(solution(4))
 
 # 1111 112 121 211 22  /  4//2
 # 11111 1211 1121 1112 2111 122 221 / 5//2 + 1
+
+"""
+
+
+def solution(n):
+    if n < 3:
+        return n
+    a, b = 1, 1
+    for _ in range(n):
+        a, b = b, a+b
+    return a % 1000000007
+
+
+print(solution(4))
