@@ -42,3 +42,5 @@ for _ in range(n):
             print(answer[-1])
         else:
             print(-1)
+
+# 자료구조, 스택 문제
