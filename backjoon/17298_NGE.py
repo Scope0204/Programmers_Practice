@@ -33,6 +33,8 @@ for i in range(n):
         big[stack.pop()] = a[i]
     stack.append(i)
 
+    print(a, stack, i, big)
+
 print(*big)
 
 # 자료구조, 스택
