@@ -13,3 +13,6 @@ for i in range(1, n+1):
         if dp[i] > dp[i-j**2]+1:
             dp[i] = dp[i-j**2]+1
 print(dp[n])
+
+# 다른풀이 (시간초과 해결)
+# https://pacific-ocean.tistory.com/205
