@@ -1,30 +1,53 @@
+# 자리를 바꾼 뒤에 해당 표에서 가장 긴 경우의 수를 체크하는 함수
+def check(candy):
+    n = len(candy)
+    answer = 1 # 최소 한개이상이니깐
+    for i in range(n):
+        # row 조사
+        count = 1
+        for j in range(1,n):
+            if candy[i][j] == candy[i][j-1] : #이전 값과 같다면
+                count +=1 
+            else: # 이전 값과 다르면 
+                count = 1 # 초기화
+            if count > answer:
+                answer = count 
+        
+        # col조사
+        count = 1
+        for j in range(1,n):
+            if candy[j][i] == candy[j-1][i]:
+                count += 1
+            else:
+                count =1
+            if count > answer:
+                answer = count 
+    # 둘 다 조사해서 가장 긴 answer 값 리턴
+    return answer
+
+# 오른쪽과 아래만 검사
 n = int(input())
 candy = [[ c for c in input()] for _ in range(n)]
-candy2 = candy # 확인용 
-# print(candy)
-# 오른쪽과 아래만 검사
-# 단 i == n-1인 경우는 오른쪽만 검사 , j == n-1인 경우는 아래만 검사
+#candy = [list(input()) for _ in range(n)]
+ans = 0 
 
-def check(i,j,i2,j2):
-    a,b = candy2[i][j], candy2[i2],[j2]
-    candy2[i][j] = b
-    candy2[i2][j2] = a
-    #여기서부터
+for i in range(n):
+    for j in range(n):
+        if j+1 < n: # row 
+            # 오른쪽이랑 값 바꾸기
+            candy[i][j], candy[i][j+1] = candy[i][j+1] , candy[i][j]
+            check_result = check(candy)
+            if check_result > ans:
+                ans = check_result
+            # 바꾼 값 원래대로 
+            candy[i][j], candy[i][j+1] = candy[i][j+1] , candy[i][j]
+        if i+1 < n: # col
+            # 아래랑 값 바꾸기 
+            candy[i][j], candy[i+1][j] = candy[i+1][j], candy[i][j]
+            check_result = check(candy)
+            if check_result > ans:
+                ans = check_result
+            # 바꾼 값 원래대로 
+            candy[i][j], candy[i+1][j] = candy[i+1][j], candy[i][j]
 
-
-for i,v in enumerate(candy):
-    for j,v2 in v:
-        if i == n-1:
-           if candy[i][j] != candy[i][j+1]: # 오른쪽 검사 
-               check(i,j,i,j+1)
-        elif j == n-1 :
-            if candy[i][j] != candy[i+1][j]: # 아래 검사
-               check(i,j,i+1,j)
-               
-        else:
-            if candy[i][j] != candy[i][j+1]: # 오른쪽 검사 
-               check(i,j,i,j+1)
-                
-            elif candy[i][j] != candy[i+1][j]: # 아래 검사
-               check(i,j,i+1,j)
-                
+print(ans)
